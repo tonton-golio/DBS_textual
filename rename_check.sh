@@ -19,6 +19,7 @@ if [[ $file == files ]]
 then
 	blank=2 # pass
 else
+	file_original=$file
 
 	#echo $file
 
@@ -41,7 +42,6 @@ else
 	  #echo NAME_tail $NAME_tail
 
 
-	  file_original=$file
 	  file=$NAME_head$NAME_tail
 	  #echo $file
 
