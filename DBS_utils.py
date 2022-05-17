@@ -39,23 +39,39 @@ def make_text_dictionary(companies, PWD, relative_location, build_on_date='2022-
 
     else:
         dictionary = {}
-    for company in companies:
-        report_filenames = os.listdir(PWD+relative_location+company)
-        if company in dictionary.keys():
+
+    errors = []
+    for company in tqdm(companies):
+        if company == 'companies':
             pass
         else:
-            dictionary[company] = {}
-        for report_filename in tqdm(report_filenames):
-            if report_filename[:-4] in dictionary[company].keys():
-                print('already in dataset', relative_location+company+'/'+report_filename)
-            elif report_filename[-4:] == '.pdf':
-                try:
-                    #print(relative_location+company+'/'+report_filename)
-                    text = extract_text(relative_location+company+'/'+report_filename)
-                    dictionary[company][report_filename[:-4]] = {'text':text}
-                except:
-                    print('ERROR:', relative_location+company+'/'+report_filename)
+            report_filenames = os.listdir(PWD+relative_location+company)
+            if company in dictionary.keys():
+                pass
             else:
-                print('not a pdf', relative_location+company+'/'+report_filename)
+                dictionary[company] = {}
+            for report_filename in report_filenames:
+                if report_filename[:-4] in dictionary[company].keys():
+                    errors.append('already in dataset: '+ relative_location+company+'/'+report_filename)
+                elif report_filename[-4:] == '.pdf':
+                    try:
+                        #print(relative_location+company+'/'+report_filename)
+                        text = extract_text(relative_location+company+'/'+report_filename)
+                        dictionary[company][report_filename[:-4]] = {'text':text}
+                    except:
+                        errors.append('ERROR:  '+ relative_location+company+'/'+report_filename)
+                else:
+                    errors.append('not a pdf  '+ relative_location+company+'/'+report_filename)
+    
+    print('ERRORS:\n',errors)
     date_today = str(date.today())
     np.savez(relative_location+f'text_from_shareholder_decks_{date_today}.npz', dictionary)
+
+
+def get_yearMonth(string):
+    splitted = string.split('_')
+    year = int(splitted[1])
+    month = (int(splitted[2][-1]))*3
+
+    time_stamp = date(year,month,1)
+    return time_stamp
