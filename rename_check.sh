@@ -32,16 +32,10 @@ else
 	  year=$(echo $file | grep --only --extended-regexp '[0-2][0-9]')
 	  
 	  MYVAR=$file
-	  #echo MYVAR $MYVAR
-	  #echo year $year
 
 	  NAME_head=${MYVAR%$year*}  # retain the part before the colon
 	  NAME_tail=${MYVAR##*$year}  # retain the part after the last slash
 	  
-	  #echo NAME_head $NAME_head
-	  #echo NAME_tail $NAME_tail
-
-
 	  file=$NAME_head$NAME_tail
 	  #echo $file
 
@@ -105,7 +99,7 @@ else
 	#echo $Q_num
 
 	# just print errors
-	if [[ $Q_num -gt 0 ]]
+	if [[ $Q_num -gt 6 ]]
 	then
 		blank=2
 	else

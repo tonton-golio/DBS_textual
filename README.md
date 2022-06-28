@@ -22,3 +22,12 @@ The aim here is; extract text from shareholder decks, and look for occurance fre
 
 **Look up**
 1. Run Shareholder_deck_keywords_newApproach to obtain occurance of keywords in the different shareholder decks.
+
+
+
+
+
+# I think i want to reorganize the notebooks
+1. extraction: gets text from .pdfs
+1. cleaning: looks for holes in data & looks if length seems right
+1. look up
