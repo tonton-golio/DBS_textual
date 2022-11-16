@@ -1,6 +1,5 @@
 from DBS_utils import *
 
-
 load_or_run = st.sidebar.radio('choose one:', ['load', 'run'])
 
 if load_or_run == 'run':
@@ -24,10 +23,10 @@ if load_or_run == 'run':
 	distances_and_prevalences = {}
 	for i, company in enumerate(companies):
 		data[company] = {}
-		distances_and_prevalences[company] = []
+		distances_and_prevalences[company] = {}
 		for report in text_dict[company].keys():
 			try:
-			
+				
 
 				distances_and_prevalence = get_distances_and_prevalence(text_dict[company][report]['text'], keyword_dict, word_counts)
 				distances_and_prevalences[company][report] = distances_and_prevalence
@@ -36,7 +35,7 @@ if load_or_run == 'run':
 				data[company][report_name_formatted] = getScores(distances_and_prevalence)
 			except:
 				st.write('Error at', report)
-
+	distances_and_prevalences
 	df = pd.DataFrame.from_dict(data).sort_index()
 	df = pd.concat({k: pd.DataFrame(v).T for k, v in data.items()}, axis=1)
 	'dataframe', df
