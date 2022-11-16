@@ -7,24 +7,13 @@ with st.sidebar:
 
 
 if load_or_run == 'load':
-	# get filenames
-	list_dir = os.listdir('data/Results/')
-	files = []
-	for i in list_dir:
-		if i[0] != '.':
-			files.append(i)
-
-	# Choose filename
 	with st.sidebar:
-		st.markdown('### ------------------')
-		filename = st.radio('filename',files)
-	path = 'data/Results/'+filename
+		path = file_selector(directory='data/Results/Match_counts/', radio_text='select', filetype=None)
+    
 
 	# Load and display dataframe
-	df = pd.read_csv(path)#, index_col=[0,1])
-	df['period']=pd.to_datetime(df.period)
-	df.sort_values(['company', 'period'], inplace=True)
-	'dataframe:', df
+	df, word_counts = load_match_counts(path)
+	display_match_counts(df, word_counts)
 
 
 elif load_or_run == 'run':
@@ -42,5 +31,6 @@ elif load_or_run == 'run':
 		text_dict = dict_extractor(filename_text)
 
 
-	df = match_counts(keyword_dict, text_dict)
-	'dataframe', df
+	path = match_counts(keyword_dict, text_dict, file_location='data/Results/Match_counts/')
+	df, word_counts = load_match_counts(path)
+	display_match_counts(df, word_counts)

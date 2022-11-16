@@ -9,6 +9,8 @@ with st.expander('TODO', expanded=True):
     st.markdown(r"""
         ## TODO
         - [] Add progress bars to long runs
+        - [] clean up DBS_utils.py
+        - [] find performance data
         """)
 
 st.write('''For this project, we have pulled quarterly 
