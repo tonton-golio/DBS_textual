@@ -11,9 +11,16 @@ if load_or_run =='run':
 
 		distances_and_prevalences = dict_extractor(filename_dists)
 
+
+		filename_text = file_selector(directory='data/Text_dicts/', 
+											radio_text='Text dict',
+											filetype=None)
+
+		text_dict = dict_extractor(filename_text)
+
 data = {}
 
-companies = distances_and_prevalences.keys():
+companies = distances_and_prevalences.keys()
 for company in companies:
 	data[company] = {}
 	for report in distances_and_prevalences[company].keys():
@@ -21,25 +28,19 @@ for company in companies:
 		for cat in distances_and_prevalences[company][report].keys():
 
 			avg_dist = np.mean(distances_and_prevalences[company][report][cat]['distances'])
-			data[company][report][cat+'_avg_dist'] = avg_dist
-			data[company][report][cat+'_matches'] = len(distances_and_prevalences[company][report][cat]['distances'])
+			data[company][report][cat.split()[0]+'_avg_dist'] = avg_dist
+			data[company][report][cat.split()[0]+'_matches'] = len(distances_and_prevalences[company][report][cat]['distances'])
 
-data
+df = pd.concat({k: pd.DataFrame(v).T for k, v in data.items()}, axis=0)
+df.reset_index(inplace=True)
+df.rename(columns={'level_0':'company', 'level_1':'report'}, inplace=True)
 
-# make sure scores have cols of each category, and index of company+time
+a = text_dict['Dexcom'].keys()
+a
 
-
-
-# add more cols:
-'''
-df[length] = len(text_dict[company][report]['text'])
-
-df[cat_numMatches] = matchcounts[company][report]
+lengths = [len(text_dict[company][report]['text']) for company, report in zip(df.company, df.report)]
 
 
-avg distance
-number of keywords found
-score for each category
-length of text (characters)
+df["length"] = lengths
 
-'''
+df

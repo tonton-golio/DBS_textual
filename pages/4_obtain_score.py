@@ -53,3 +53,8 @@ elif load_or_run =='load':
 
 	df = pd.read_csv(filename_scores, index_col=0, header=[0,1])
 	df
+
+	fig, ax = plt.subplots()
+	sns.heatmap(df.T, ax=ax)
+	st.pyplot(fig)
+	plt.close()

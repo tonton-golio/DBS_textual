@@ -219,3 +219,7 @@ def getScores(distances_and_prevalence, a=.5):
         scores[category] = sum(arr[0]*arr[1])
     return scores
 
+
+
+
+
